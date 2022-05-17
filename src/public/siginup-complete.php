@@ -7,7 +7,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $pass_check = $_POST['pass_check'];
 
   /* バリデーション */
-  $errors[] = 0;
   // 確認用パスワードとの一致
   if ($pass !== $pass_check) {
     $errors['pass_check'] = '※確認用パスワードが一致しません';
