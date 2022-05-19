@@ -1,6 +1,6 @@
 <?php
-$email = $_POST['email'];
-$pass = $_POST['pass'];
+$email = filter_input(INPUT_POST, "email");
+$pass = filter_input(INPUT_POST, "pass");
 
 /* バリデーション */
 //passwordかemailが未入力
