@@ -1,0 +1,19 @@
+ul {
+  text-align: right;
+}
+li {
+  display: inline;
+}
+div.blog {
+  display: flex;
+ 
+}
+li.blog1 {
+  background-color: #FFF;
+  width: 200px
+  margin-left: 50px;
+  margin-right: 50px;
+}
+body {
+  background-color: #99FFFF;
+}
