@@ -1,6 +1,5 @@
 <?php
-//$id = filter_input(INPUT_POST, "id");
-$id = 2;
+$id = filter_input(INPUT_POST, "id");
 $dbUserName = "root";
 $dbPassword = "password";
 $pdo = new PDO("mysql:host=mysql; dbname=blog; charset=utf8", $dbUserName, $dbPassword);
@@ -14,11 +13,9 @@ $contacts = $statement->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-  <meta charset="utf-8">
-</head>
+<meta charset="utf-8">
 <body>
-<?php include('header.php'); ?>  
+<main>
   <?php foreach($contacts as $row) : ?>
     <form method=post action=edit-update.php>
       <div style="text-align: center">
@@ -33,5 +30,6 @@ $contacts = $statement->fetchAll(PDO::FETCH_ASSOC);
       </div>
       <input type="hidden" name="id" value="<?= $row['id']?>">
     </form>
-  <?php endforeach; ?>    
+  <?php endforeach; ?>
+</main>    
 </body>

@@ -1,14 +1,6 @@
-<?php 
-//ログインしていない時の処理
-// session_start();
-// if (empty($_SESSION['id'])) {
-//   header('Location: user/siginin.php');
-//   exit;
-// }
-?>
 <?php
-//$user_id = $_SESSION['id']だが、便宜上具体的な数字を入れておく。
-$user_id = 9;
+session_start();
+$user_id = $_SESSION['id'];
 
 $dbUserName = "root";
 $dbPassword = "password";
@@ -49,8 +41,9 @@ $contacts = $statement->fetchAll(PDO::FETCH_ASSOC);
                     } else {
                       echo $row['content'] ;
                     } ; ?></p>
-          <form action="myarticledetail.php" method="get">
+          <form action="myArticledetail.php" method="post">
             <input type="submit" name="detail" value="記事詳細へ">
+            <input type="hidden" name="id" value="<?= $row['id']?>">
           </form>
         </li>
         <?php endforeach; ?>

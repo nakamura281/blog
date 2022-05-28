@@ -1,4 +1,5 @@
 <?php
+session_start();
 $email = filter_input(INPUT_POST, "email");
 $pass = filter_input(INPUT_POST, "pass");
 

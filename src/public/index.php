@@ -1,10 +1,10 @@
 <?php 
 //ログインしていない時の処理
-// session_start();
-// if (empty($_SESSION['id'])) {
-//   header('Location: user/siginin.php');
-//   exit;
-// }
+session_start();
+if (empty($_SESSION['id'])) {
+  header('Location: user/siginin.php');
+  exit;
+}
 ?>
 <?php
 
@@ -13,6 +13,7 @@ $dbPassword = "password";
 $pdo = new PDO("mysql:host=mysql; dbname=blog; charset=utf8", $dbUserName, $dbPassword);
 
 //検索機能
+$search_word = filter_input(INPUT_POST, "word");
 if ($search_word == "") {
   $sql = "SELECT * FROM blogs";
   $statement = $pdo->prepare($sql);
@@ -65,8 +66,9 @@ if ($_GET["order"] === "desc") {
                     } else {
                       echo $row['content'] ;
                     } ; ?></p>
-          <form action="detail.php" method="get">
+          <form action="detail.php" method="post">
             <input type="submit" name="detail" value="記事詳細へ">
+            <input type="hidden" name="id" value="<?= $row['id']?>">
           </form>
         </li>
         <?php endforeach; ?>
