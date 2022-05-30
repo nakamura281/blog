@@ -1,6 +1,6 @@
 <?php
-//$user_id = $_SESSION['id']だが、便宜上具体的な数字を入れておく。
-$user_id = 9;
+session_start();
+$user_id = $_SESSION['id'];
 $title = filter_input(INPUT_POST, "title");
 $content = filter_input(INPUT_POST, "content");
 

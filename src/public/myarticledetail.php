@@ -1,6 +1,5 @@
 <?php
-//今は擬態的な数字を入れておく
-$id = 1;
+$id = filter_input(INPUT_POST, "id");
 
 $dbUserName = "root";
 $dbPassword = "password";

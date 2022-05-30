@@ -13,12 +13,12 @@
         <ul>
         <li><a href="index.php">ホーム</a></li>
         <li><a href="mypage.php">マイページ</a></li>
-        <li><a href="logout.php">ログアウト</a></li>
+        <li><a href="user/siginout.php">ログアウト</a></li>
         </ul>
       <?php else : ?>
         <ul>
-        <li><a href="login.php">ログイン</a></li>
-        <li><a href="signup.php">ユーザー登録</a></li>
+        <li><a href="user/login.php">ログイン</a></li>
+        <li><a href="user/signup.php">ユーザー登録</a></li>
         </ul>
       <?php endif ?>
   </header>

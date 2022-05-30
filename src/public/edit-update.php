@@ -15,11 +15,19 @@ $statement->bindValue( ':title' , $title , PDO::PARAM_STR);
 $statement->bindValue( ':content' , $content , PDO::PARAM_STR);
 $statement->execute();
 
-var_dump($id);
-var_dump($title);
-var_dump($content);
-
-//画面遷移の機能は後ほど追加します。
-//header('Location: myarticledetail.php');
-exit();
 ?>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+</head>
+<body>
+  <form method=post action=myArticledetail.php>
+    <div style="text-align: center">
+      <li>
+        <button type="submit">次へ</button>
+      </li>  
+    </div>
+    <input type="hidden" name="id" value="<?= $id ?>">
+  </form> 
+</body>
