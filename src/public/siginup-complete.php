@@ -1,10 +1,15 @@
 <?php
+//データベース接続
+$dbUserName = "root";
+$dbPassword = "password";
+$pdo = new PDO("mysql:host=mysql; dbname=blog; charset=utf8", $dbUserName, $dbPassword);
+
 // フォームから値が入力された場合
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-  $name = $_POST['name'];
-  $email = $_POST['email'];
-  $pass = $_POST['pass'];
-  $pass_check = $_POST['pass_check'];
+  $name = filter_input(INPUT_POST, 'name');
+  $email = filter_input(INPUT_POST, 'email');
+  $pass = filter_input(INPUT_POST, 'pass');
+  $pass_check = filter_input(INPUT_POST, 'pass_check');
 
   /* バリデーション */
   // 確認用パスワードとの一致
@@ -13,7 +18,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   }
 
   // メールアドレスの重複
-  if ($result['COUNT(*)'] == 1) {
+  $sql = 'select * from users where email=:email';
+  $statement = $pdo->prepare($sql);
+  $statement->bindValue(':email', $email, PDO::PARAM_STR);
+  $statement->execute();
+  $user = $statement->fetch();
+
+  if ($user) {
     $errors['email'] = '※このメールアドレスは既に使用されています';
   }
 
@@ -33,10 +44,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $hash_pass = password_hash($pass, PASSWORD_DEFAULT);
 
     // ユーザー登録処理
-    $dbUserName = "root";
-    $dbPassword = "password";
-    $pdo = new PDO("mysql:host=mysql; dbname=blog; charset=utf8", $dbUserName, $dbPassword);
-
     $sql = "INSERT INTO users (
     name , email , password , created_at , updated_at	
     ) VALUES (
