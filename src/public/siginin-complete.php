@@ -1,5 +1,6 @@
 <?php
 session_start();
+include __DIR__ . ('/function.php');
 $email = filter_input(INPUT_POST, "email");
 $pass = filter_input(INPUT_POST, "pass");
 
@@ -7,20 +8,14 @@ $pass = filter_input(INPUT_POST, "pass");
 //passwordかemailが未入力
 if (empty($email) || empty($pass)) {
   $errors['pass'] ='パスワードとメールアドレスを入力してください!';
-  include 'user/siginin.php';
-  exit;
+  $request = new action;
+  $action = $request->redirect1('user/siginin.php');
 }
 
 // バリデーションクリア（エラーメッセージなし）の場合
-$dbUserName = "root";
-$dbPassword = "password";
-$pdo = new PDO("mysql:host=mysql; dbname=blog; charset=utf8", $dbUserName, $dbPassword);
-
+$obj = new sql_connect();
 $sql = "SELECT * FROM users WHERE email = :email ORDER BY id DESC";
-$stmt = $pdo->prepare($sql);
-$stmt->bindValue(':email', $email);
-$stmt->execute(); 
-$member = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$member = $obj->select1($sql , $email);
 
 //指定したハッシュがパスワードにマッチしているかチェック
 if (password_verify($_POST['pass'] , $member[0]["password"])) {
@@ -29,12 +24,12 @@ if (password_verify($_POST['pass'] , $member[0]["password"])) {
   $_SESSION['name'] = $member[0]['name'];
 
   //トップページへリダイレクト
-  header('Location: index.php');
-  exit;
+  $request = new action;
+  $action = $request->redirect('index.php');
 }
 //メールアドレスまたはパスワードが違う
 $errors['pass'] = 'メールアドレスまたはパスワードが違います!';
 // バリデーションを持ってログインページへ
-include 'user/siginin.php';
-exit;
+$request = new action;
+$action = $request->redirect1('user/siginin.php');
  

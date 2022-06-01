@@ -1,14 +1,10 @@
 <?php
+include __DIR__ . ('/function.php');
 $id = filter_input(INPUT_POST, "id");
-$dbUserName = "root";
-$dbPassword = "password";
-$pdo = new PDO("mysql:host=mysql; dbname=blog; charset=utf8", $dbUserName, $dbPassword);  
-  
+$obj = new sql_connect();
 $sql = "DELETE FROM blogs WHERE id = :id";
-$stmt = $pdo->prepare($sql);
-$stmt->bindValue(':id', $id);
-$stmt->execute();
+$stmt = $obj->delete($sql , $id);
 
-header('Location: ./mypage.php');
-exit();
+$request = new action;
+$action = $request->redirect('mypage.php');
 ?>

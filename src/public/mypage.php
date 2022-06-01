@@ -1,19 +1,12 @@
 <?php
 session_start();
+include __DIR__ . ('/function.php');
 $user_id = $_SESSION['id'];
 
-$dbUserName = "root";
-$dbPassword = "password";
-$pdo = new PDO("mysql:host=mysql; dbname=blog; charset=utf8", $dbUserName, $dbPassword);
-
+$obj = new sql_connect();
 //user_idで絞り込む
 $sql = "SELECT * FROM blogs WHERE user_id = :user_id ORDER BY id DESC";
-$statement = $pdo->prepare($sql);
-$statement->bindValue(':user_id', $user_id);
-$statement->execute();
-$contacts = $statement->fetchAll(PDO::FETCH_ASSOC);
-
-
+$contacts = $obj->select3($sql , $user_id);
 ?>
 <!DOCTYPE html>
 <html lang="ja">

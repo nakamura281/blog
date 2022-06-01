@@ -1,15 +1,8 @@
 <?php
-$id = filter_input(INPUT_POST, "id");
-$dbUserName = "root";
-$dbPassword = "password";
-$pdo = new PDO("mysql:host=mysql; dbname=blog; charset=utf8", $dbUserName, $dbPassword);
-
-$sql = "SELECT * FROM blogs WHERE id = :id";
-$statement = $pdo->prepare($sql);
-$statement->bindParam(':id' , $id , PDO::PARAM_INT);
-$statement->execute();
-$contacts = $statement->fetchAll(PDO::FETCH_ASSOC);
-
+include __DIR__ . ('/function.php');
+$obj = new sql_connect();
+$sql = "SELECT * FROM blogs WHERE id = :id ";
+$contacts = $obj->select2($sql , $id);
 ?>
 <!DOCTYPE html>
 <html lang="ja">

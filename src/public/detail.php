@@ -1,32 +1,19 @@
 <?php
 session_start();
+include __DIR__ . ('/function.php');
 //userのid
 $user_id = $_SESSION['id'];
 //blogのid
 $id = filter_input(INPUT_POST, "id");
 
-$dbUserName = "root";
-$dbPassword = "password";
-$pdo = new PDO("mysql:host=mysql; dbname=blog; charset=utf8", $dbUserName, $dbPassword);
-
+$obj = new sql_connect();
 //idで絞り込む（ブログ記事のDB）
 $sql = "SELECT * FROM blogs WHERE id = :id ";
-$statement = $pdo->prepare($sql);
-$statement->bindValue(':id', $id);
-$statement->execute();
-$contacts = $statement->fetchAll(PDO::FETCH_ASSOC);
-
-
-$dbUserName = "root";
-$dbPassword = "password";
-$pdo = new PDO("mysql:host=mysql; dbname=blog; charset=utf8", $dbUserName, $dbPassword);
+$contacts = $obj->select2($sql , $id);
 
 //コメントのDB
-$sql1 = "SELECT * FROM comments WHERE blog_id = :blog_id";
-$statement1 = $pdo->prepare($sql1);
-$statement1->bindValue(':blog_id', $id);
-$statement1->execute();
-$contacts1 = $statement1->fetchAll(PDO::FETCH_ASSOC);
+$sql1 = "SELECT * FROM comments WHERE blog_id = :id";
+$contacts1 = $obj->select2($sql1 , $id);
 ?>
 <!DOCTYPE html>
 <html lang="ja">

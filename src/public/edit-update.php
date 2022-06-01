@@ -1,19 +1,12 @@
 <?php 
+include __DIR__ . ('/function.php');
 $id = filter_input(INPUT_POST, "id");
 $title = filter_input(INPUT_POST, "title");
 $content = filter_input(INPUT_POST, "content");
 
-$dbUserName = "root";
-$dbPassword = "password";
-$pdo = new PDO("mysql:host=mysql; dbname=blog; charset=utf8", $dbUserName, $dbPassword);
-
+$obj = new sql_connect();
 $sql = "UPDATE blogs SET title = :title , content = :content , updated_at = now() WHERE  id = :id";
-
-$statement = $pdo->prepare($sql);
-$statement->bindValue( ':id' , $id , PDO::PARAM_INT);
-$statement->bindValue( ':title' , $title , PDO::PARAM_STR);
-$statement->bindValue( ':content' , $content , PDO::PARAM_STR);
-$statement->execute();
+$stmt = $obj->update($sql , $id , $title , $content);
 
 ?>
 <!DOCTYPE html>
