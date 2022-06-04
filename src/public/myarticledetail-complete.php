@@ -1,10 +1,11 @@
 <?php
-include __DIR__ . ('/function.php');
+include __DIR__ . ('/sqlDelete.php');
+include __DIR__ . ('/action.php');
 $id = filter_input(INPUT_POST, "id");
-$obj = new sql_connect();
+$obj = new Delete();
 $sql = "DELETE FROM blogs WHERE id = :id";
 $stmt = $obj->delete($sql , $id);
 
-$request = new action;
+$request = new Action;
 $action = $request->redirect('mypage.php');
 ?>

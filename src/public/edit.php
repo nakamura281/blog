@@ -1,6 +1,6 @@
 <?php
-include __DIR__ . ('/function.php');
-$obj = new sql_connect();
+include __DIR__ . ('/sqlSelect.php');
+$obj = new Select();
 $sql = "SELECT * FROM blogs WHERE id = :id ";
 $contacts = $obj->select2($sql , $id);
 ?>

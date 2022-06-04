@@ -1,6 +1,7 @@
 <?php
 session_start();
 include __DIR__ . ('/function.php');
+include __DIR__ . ('/action.php');
 $email = filter_input(INPUT_POST, "email");
 $pass = filter_input(INPUT_POST, "pass");
 
@@ -8,12 +9,12 @@ $pass = filter_input(INPUT_POST, "pass");
 //passwordかemailが未入力
 if (empty($email) || empty($pass)) {
   $errors['pass'] ='パスワードとメールアドレスを入力してください!';
-  $request = new action;
+  $request = new Action;
   $action = $request->redirect1('user/siginin.php');
 }
 
 // バリデーションクリア（エラーメッセージなし）の場合
-$obj = new sql_connect();
+$obj = new Select();
 $sql = "SELECT * FROM users WHERE email = :email ORDER BY id DESC";
 $member = $obj->select1($sql , $email);
 
@@ -24,12 +25,12 @@ if (password_verify($_POST['pass'] , $member[0]["password"])) {
   $_SESSION['name'] = $member[0]['name'];
 
   //トップページへリダイレクト
-  $request = new action;
+  $request = new Action;
   $action = $request->redirect('index.php');
 }
 //メールアドレスまたはパスワードが違う
 $errors['pass'] = 'メールアドレスまたはパスワードが違います!';
 // バリデーションを持ってログインページへ
-$request = new action;
+$request = new Action;
 $action = $request->redirect1('user/siginin.php');
  

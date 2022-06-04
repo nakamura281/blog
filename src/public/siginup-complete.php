@@ -1,6 +1,7 @@
 <?php
+include __DIR__ . ('/validation.php');
+include __DIR__ . ('/action.php');
 include __DIR__ . ('/function.php');
-$obj = new sql_connect();
 
 // フォームから値が入力された場合
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -16,10 +17,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   }
 
   // メールアドレスの重複
+  $obj = new Select();
   $sql = "SELECT * from users where email=:email";
   $user = $obj->select1($sql , $email);
   
-  $validations = new validation;
+  $validations = new Validation;
   $errors = $validations->errors($user , $name , $email);
 
   // バリデーションクリア（エラーメッセージなし）の場合
@@ -28,6 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $hash_pass = password_hash($pass, PASSWORD_DEFAULT);
 
     // ユーザー登録処理
+    $obj = new Insert();
     $sql = "INSERT INTO users (
     name , email , password , created_at , updated_at	
     ) VALUES (
@@ -36,11 +39,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $contacts = $obj->insert2($sql , $name , $email , $hash_pass);
 
     // サインインページへリダイレクト
-    $request = new action;
+    $request = new Action;
     $action = $request->redirect('user/siginin.php');
   } else {
     // バリデーションを持って登録画面へ
-    $request = new action;
+    $request = new Action;
     $action = $request->redirect1('user/siginup.php');
   }
 }

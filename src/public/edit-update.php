@@ -1,10 +1,10 @@
 <?php 
-include __DIR__ . ('/function.php');
+include __DIR__ . ('/sqlUpdate.php');
 $id = filter_input(INPUT_POST, "id");
 $title = filter_input(INPUT_POST, "title");
 $content = filter_input(INPUT_POST, "content");
 
-$obj = new sql_connect();
+$obj = new Update();
 $sql = "UPDATE blogs SET title = :title , content = :content , updated_at = now() WHERE  id = :id";
 $stmt = $obj->update($sql , $id , $title , $content);
 

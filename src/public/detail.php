@@ -1,12 +1,12 @@
 <?php
 session_start();
-include __DIR__ . ('/function.php');
+include __DIR__ . ('/sqlSelect.php');
 //userのid
 $user_id = $_SESSION['id'];
 //blogのid
 $id = filter_input(INPUT_POST, "id");
 
-$obj = new sql_connect();
+$obj = new Select();
 //idで絞り込む（ブログ記事のDB）
 $sql = "SELECT * FROM blogs WHERE id = :id ";
 $contacts = $obj->select2($sql , $id);

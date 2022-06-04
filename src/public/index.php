@@ -1,14 +1,15 @@
 <?php 
 //ログインしていない時の処理
 session_start();
-include __DIR__ . ('/function.php');
+include __DIR__ . ('/sqlSelect.php');
+include __DIR__ . ('/action.php');
 if (empty($_SESSION['id'])) {
-  $request = new action;
+  $request = new Action;
   $action = $request->redirect('user/siginin.php');
 }
 ?>
 <?php
-$obj = new sql_connect();
+$obj = new Select();
 
 //検索機能
 $search_word = filter_input(INPUT_POST, "word");
