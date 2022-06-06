@@ -1,7 +1,8 @@
 <?php
-include __DIR__ . ('/validation.php');
-include __DIR__ . ('/action.php');
-include __DIR__ . ('/function.php');
+include __DIR__ . ('/Validation.php');
+include __DIR__ . ('/Action.php');
+include __DIR__ . ('/SqlSelect.php');
+include __DIR__ . ('/SqlInsert.php');
 
 // フォームから値が入力された場合
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -17,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   }
 
   // メールアドレスの重複
-  $obj = new Select();
+  $obj = new SqlSelect();
   $sql = "SELECT * from users where email=:email";
   $user = $obj->select1($sql , $email);
   
@@ -30,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $hash_pass = password_hash($pass, PASSWORD_DEFAULT);
 
     // ユーザー登録処理
-    $obj = new Insert();
+    $obj = new SqlInsert();
     $sql = "INSERT INTO users (
     name , email , password , created_at , updated_at	
     ) VALUES (

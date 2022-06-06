@@ -1,6 +1,7 @@
 <?php
-include __DIR__ . ('/sqlSelect.php');
-$obj = new Select();
+include __DIR__ . ('/SqlSelect.php');
+$id = filter_input(INPUT_POST, "id");
+$obj = new SqlSelect();
 $sql = "SELECT * FROM blogs WHERE id = :id ";
 $contacts = $obj->select2($sql , $id);
 ?>

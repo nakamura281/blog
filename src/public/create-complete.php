@@ -1,12 +1,12 @@
 <?php
 session_start();
-include __DIR__ . ('/sqlInsert.php');
-include __DIR__ . ('/action.php');
+include __DIR__ . ('/SqlInsert.php');
+include __DIR__ . ('/Action.php');
 $user_id = $_SESSION['id'];
 $title = filter_input(INPUT_POST, "title");
 $content = filter_input(INPUT_POST, "content");
 
-$obj = new Insert();
+$obj = new SqlInsert();
 //データベースに追加
 $sql = "INSERT INTO blogs (
   user_id , title , content , created_at , updated_at	

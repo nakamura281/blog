@@ -1,6 +1,6 @@
 <?php
-include  __DIR__ . ('/function.php');
-class Insert
+include  __DIR__ . ('/Sqlconnect.php');
+class SqlInsert
 {
   function insert($sql , $user_id , $title , $content)
   {

@@ -1,6 +1,6 @@
 <?php
-include  __DIR__ . ('/function.php');
-class Select
+include  __DIR__ . ('/Sqlconnect.php');
+class SqlSelect
 {
   function select($sql)
   {

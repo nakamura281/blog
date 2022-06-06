@@ -1,6 +1,6 @@
 <?php
-include  __DIR__ . ('/function.php');
-class Delete
+include  __DIR__ . ('/Sqlconnect.php');
+class SqlDelete
 {
   function delete($sql , $id)
   {

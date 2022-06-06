@@ -1,9 +1,9 @@
 <?php
 session_start();
-include __DIR__ . ('/sqlSelect.php');
+include __DIR__ . ('/SqlSelect.php');
 $user_id = $_SESSION['id'];
 
-$obj = new Select();
+$obj = new SqlSelect();
 //user_idで絞り込む
 $sql = "SELECT * FROM blogs WHERE user_id = :user_id ORDER BY id DESC";
 $contacts = $obj->select3($sql , $user_id);

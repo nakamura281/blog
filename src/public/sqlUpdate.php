@@ -1,6 +1,6 @@
 <?php
-include  __DIR__ . ('/function.php');
-class Update
+include  __DIR__ . ('/Sqlconnect.php');
+class SqlUpdate
 {
   function update($sql , $id , $title , $content)
   {

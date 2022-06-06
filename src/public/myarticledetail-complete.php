@@ -1,8 +1,8 @@
 <?php
-include __DIR__ . ('/sqlDelete.php');
-include __DIR__ . ('/action.php');
+include __DIR__ . ('/SqlDelete.php');
+include __DIR__ . ('/Action.php');
 $id = filter_input(INPUT_POST, "id");
-$obj = new Delete();
+$obj = new SqlDelete();
 $sql = "DELETE FROM blogs WHERE id = :id";
 $stmt = $obj->delete($sql , $id);
 

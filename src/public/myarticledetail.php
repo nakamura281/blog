@@ -1,8 +1,8 @@
 <?php
-include __DIR__ . ('/sqlSelect.php');
+include __DIR__ . ('/SqlSelect.php');
 $id = filter_input(INPUT_POST, "id");
 
-$obj = new Select();
+$obj = new SqlSelect();
 //idで絞り込む
 $sql = "SELECT * FROM blogs WHERE id = :id ";
 $contacts = $obj->select2($sql , $id);

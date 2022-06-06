@@ -4,7 +4,7 @@ $id = filter_input(INPUT_POST, "id");
 $title = filter_input(INPUT_POST, "title");
 $content = filter_input(INPUT_POST, "content");
 
-$obj = new Update();
+$obj = new SqlUpdate();
 $sql = "UPDATE blogs SET title = :title , content = :content , updated_at = now() WHERE  id = :id";
 $stmt = $obj->update($sql , $id , $title , $content);
 

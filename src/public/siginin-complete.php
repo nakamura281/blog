@@ -1,7 +1,7 @@
 <?php
 session_start();
-include __DIR__ . ('/function.php');
-include __DIR__ . ('/action.php');
+include __DIR__ . ('/SqlSelect.php');
+include __DIR__ . ('/Action.php');
 $email = filter_input(INPUT_POST, "email");
 $pass = filter_input(INPUT_POST, "pass");
 
@@ -14,7 +14,7 @@ if (empty($email) || empty($pass)) {
 }
 
 // バリデーションクリア（エラーメッセージなし）の場合
-$obj = new Select();
+$obj = new SqlSelect();
 $sql = "SELECT * FROM users WHERE email = :email ORDER BY id DESC";
 $member = $obj->select1($sql , $email);
 
