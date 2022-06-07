@@ -1,16 +1,11 @@
 <?php
+include __DIR__ . ('/SqlSelect.php');
 $id = filter_input(INPUT_POST, "id");
 
-$dbUserName = "root";
-$dbPassword = "password";
-$pdo = new PDO("mysql:host=mysql; dbname=blog; charset=utf8", $dbUserName, $dbPassword);
-
+$obj = new SqlSelect();
 //idで絞り込む
 $sql = "SELECT * FROM blogs WHERE id = :id ";
-$statement = $pdo->prepare($sql);
-$statement->bindValue(':id', $id);
-$statement->execute();
-$contacts = $statement->fetchAll(PDO::FETCH_ASSOC);
+$contacts = $obj->select2($sql , $id);
 ?>
 <!DOCTYPE html>
 <html lang="ja">

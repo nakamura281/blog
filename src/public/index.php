@@ -1,30 +1,25 @@
 <?php 
 //ログインしていない時の処理
 session_start();
+include __DIR__ . ('/SqlSelect.php');
+include __DIR__ . ('/Action.php');
 if (empty($_SESSION['id'])) {
-  header('Location: user/siginin.php');
-  exit;
+  $request = new Action;
+  $action = $request->redirect('user/siginin.php');
 }
 ?>
 <?php
-
-$dbUserName = "root";
-$dbPassword = "password";
-$pdo = new PDO("mysql:host=mysql; dbname=blog; charset=utf8", $dbUserName, $dbPassword);
+$obj = new SqlSelect();
 
 //検索機能
 $search_word = filter_input(INPUT_POST, "word");
 if ($search_word == "") {
   $sql = "SELECT * FROM blogs";
-  $statement = $pdo->prepare($sql);
-  $statement->execute();
-  $contacts = $statement->fetchAll(PDO::FETCH_ASSOC);
+  $contacts = $obj->select($sql);
  } else {
    $sql = "SELECT * FROM blogs WHERE content LIKE '%" . $search_word . "%' OR title LIKE '%" . $search_word . "%'";
-   $statement = $pdo->prepare($sql);
-   $statement->execute();
-   $contacts = $statement->fetchAll(PDO::FETCH_ASSOC);
- }
+   $contacts = $obj->select($sql);
+}
 
 //並び替え機能
 foreach ($contacts as $value) {

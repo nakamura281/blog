@@ -18,7 +18,7 @@
       <input type="submit" value="ログイン">
     </form>
     <div>
-      <a href="user/siginup.php">アカウント作成</a>
+      <a href="./siginup.php">アカウント作成</a>
     </div>
   </div>
 </body>
