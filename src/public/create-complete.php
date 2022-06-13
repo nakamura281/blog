@@ -1,8 +1,10 @@
 <?php
 session_start();
-include __DIR__ . ('/SqlInsert.php');
-include __DIR__ . ('/Action.php');
-$user_id = $_SESSION['id'];
+include __DIR__ . ('/../app/Lib/SqlInsert.php');
+include __DIR__ . ('/../app/Lib/Action.php');
+include_once __DIR__ . ('/../app/Lib/Session.php');
+
+$user_id = $_SESSION['formInputs']['userId'];
 $title = filter_input(INPUT_POST, "title");
 $content = filter_input(INPUT_POST, "content");
 

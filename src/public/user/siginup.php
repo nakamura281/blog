@@ -1,18 +1,32 @@
 <?php
-if (isset($_SESSION['id'])) {
+if (isset($_SESSION['formInputs']['userId'])) {
   header('Location: index.php');
   exit;
 }
 ?>
+<?php
+include_once __DIR__ . ('/../../app/Lib/Session.php');
 
-<!DOCTYPE html>
+session_start();
+
+$session = Session::getInstance();
+$errors = $session->popAllErrors();
+$formInputs = $session->getFormInputs();
+
+$userName = $formInputs['userName'] ?? '';
+$mail = $formInputs['mail'] ?? '';
+?>
+
+<!DOCTYPE html
 <html lang="ja">
 <meta charset="UTF-8">
 <body>
     <main>
       <div style="text-align: center">
         <h1>会員登録</h1>
-        <p><?php echo $errors; ?></p>
+        <?php foreach ($errors as $error): ?>
+            <p class="text-red-600"><?php echo $error; ?></p>
+        <?php endforeach; ?>
         <form method="post" action="/../siginup-complete.php">
             <div>
                 <input type="text" name="name" id="name" placeholder="ユーザー名" >

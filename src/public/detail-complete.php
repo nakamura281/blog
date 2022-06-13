@@ -1,6 +1,6 @@
 <?php 
-include __DIR__ . ('/SqlInsert.php');
-include __DIR__ . ('/Action.php');
+include __DIR__ . ('/../app/Lib/SqlInsert.php');
+include __DIR__ . ('/../app/Lib/Action.php');
 $commenter_name = filter_input(INPUT_POST, "commenter_name");
 $comments = filter_input(INPUT_POST, "comments");
 $blog_id = filter_input(INPUT_POST, "id");
@@ -12,7 +12,7 @@ $sql = "INSERT INTO comments (
     ) VALUES (
     :user_id , :blog_id , :commenter_name , :comments , now() , now()
 )";
-$stmt = $obj->insert1($sql , $user_id , $commenter_name , $comments);
+$stmt = $obj->insert1($sql , $user_id , $blog_id , $commenter_name , $comments);
 //リダイレクト
 $request = new Action;
 $action = $request->redirect('detail.php');

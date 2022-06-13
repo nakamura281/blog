@@ -1,7 +1,8 @@
 <?php
 session_start();
-include __DIR__ . ('/SqlSelect.php');
-$user_id = $_SESSION['id'];
+include __DIR__ . ('/../app/Lib/SqlSelect.php');
+include_once __DIR__ . ('/../app/Lib/Session.php');
+$user_id = $_SESSION['formInputs']['userId'];
 
 $obj = new SqlSelect();
 //user_idで絞り込む

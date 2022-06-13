@@ -1,5 +1,5 @@
 <?php
-include  __DIR__ . ('/Sqlconnect.php');
+include_once  __DIR__ . ('/SqlConnect.php');
 class SqlUpdate
 {
   function update($sql , $id , $title , $content)

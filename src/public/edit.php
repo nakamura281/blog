@@ -1,5 +1,5 @@
 <?php
-include __DIR__ . ('/SqlSelect.php');
+include __DIR__ . ('/../app/Lib/SqlSelect.php');
 $id = filter_input(INPUT_POST, "id");
 $obj = new SqlSelect();
 $sql = "SELECT * FROM blogs WHERE id = :id ";
