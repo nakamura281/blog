@@ -1,5 +1,5 @@
 <?php
-// namespace Session\Controller;
+namespace App\Lib;
 /**
   * セッションの操作を行うクラス
   */

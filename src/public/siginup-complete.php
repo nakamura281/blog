@@ -3,7 +3,9 @@ include (__DIR__ . '/../app/Lib/Validation.php');
 include (__DIR__ . '/../app/Lib/Action.php');
 include (__DIR__ . '/../app/Lib/SqlSelect.php');
 include (__DIR__ . '/../app/Lib/SqlInsert.php');
-include_once (__DIR__ . '/../app/Lib/Session.php');
+include_once (__DIR__ . '/../vendor/autoload.php');
+
+use App\Lib\Session;
 
 // フォームから値が入力された場合
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
