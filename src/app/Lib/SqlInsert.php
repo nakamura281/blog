@@ -1,5 +1,5 @@
 <?php
-include  __DIR__ . ('/Sqlconnect.php');
+include_once  __DIR__ . ('/Sqlconnect.php');
 class SqlInsert
 {
   function insert($sql , $user_id , $title , $content)
@@ -13,7 +13,7 @@ class SqlInsert
     $stmt->execute(); 
     return $stmt;
   }
-  function insert1($sql , $user_id , $commenter_name , $comments)
+  function insert1($sql , $user_id , $blog_id , $commenter_name , $comments)
   {
     $obj = new SqlConnect();
     $hoge = $obj->pdo();

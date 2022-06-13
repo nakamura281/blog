@@ -9,7 +9,7 @@
 <body>
   <header>
     <h1>こんにちは！</h1>
-      <?php if (isset($_SESSION['id'])) : ?>
+      <?php if (isset($_SESSION['formInputs']['userId'])) : ?>
         <ul>
         <li><a href="index.php">ホーム</a></li>
         <li><a href="mypage.php">マイページ</a></li>

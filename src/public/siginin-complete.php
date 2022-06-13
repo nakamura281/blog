@@ -1,14 +1,17 @@
 <?php
 session_start();
-include __DIR__ . ('/SqlSelect.php');
-include __DIR__ . ('/Action.php');
+include __DIR__ . ('/../app/Lib/SqlSelect.php');
+include __DIR__ . ('/../app/Lib/Action.php');
+include_once __DIR__ . ('/../app/Lib/Session.php');
 $email = filter_input(INPUT_POST, "email");
 $pass = filter_input(INPUT_POST, "pass");
+
+$session = Session::getInstance();
 
 /* バリデーション */
 //passwordかemailが未入力
 if (empty($email) || empty($pass)) {
-  $errors['pass'] ='パスワードとメールアドレスを入力してください!';
+  $session->appendError('パスワードとメールアドレスを入力してください!');
   $request = new Action;
   $action = $request->redirect1('user/siginin.php');
 }
@@ -19,17 +22,20 @@ $sql = "SELECT * FROM users WHERE email = :email ORDER BY id DESC";
 $member = $obj->select1($sql , $email);
 
 //指定したハッシュがパスワードにマッチしているかチェック
-if (password_verify($_POST['pass'] , $member[0]["password"])) {
+if (password_verify($pass , $member[0]["password"])) {
   //DBのユーザー情報をセッションに保存
-  $_SESSION['id'] = $member[0]['id'];
-  $_SESSION['name'] = $member[0]['name'];
+  $formInputs = [
+    'userId' => $member[0]['id'],
+    'userName' => $member[0]['name'],
+  ];  
+  $session->setFormInputs($formInputs);
 
   //トップページへリダイレクト
   $request = new Action;
   $action = $request->redirect('index.php');
 }
 //メールアドレスまたはパスワードが違う
-$errors['pass'] = 'メールアドレスまたはパスワードが違います!';
+$session->appendError('メールアドレスまたは<br />パスワードが違います');
 // バリデーションを持ってログインページへ
 $request = new Action;
 $action = $request->redirect1('user/siginin.php');

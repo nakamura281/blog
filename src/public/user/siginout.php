@@ -1,7 +1,11 @@
 <?php
 session_start();
-$_SESSION = array();//セッションの中身をすべて削除
-session_destroy();//セッションを破壊
+
+$_SESSION = [];
+if (isset($_COOKIE[session_name()])) {
+    setcookie(session_name(), '', time() - 4200, '/');
+}
+session_destroy();
 ?>
 
 

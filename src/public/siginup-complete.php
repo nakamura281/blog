@@ -1,8 +1,9 @@
 <?php
-include __DIR__ . ('/Validation.php');
-include __DIR__ . ('/Action.php');
-include __DIR__ . ('/SqlSelect.php');
-include __DIR__ . ('/SqlInsert.php');
+include (__DIR__ . '/../app/Lib/Validation.php');
+include (__DIR__ . '/../app/Lib/Action.php');
+include (__DIR__ . '/../app/Lib/SqlSelect.php');
+include (__DIR__ . '/../app/Lib/SqlInsert.php');
+include_once (__DIR__ . '/../app/Lib/Session.php');
 
 // フォームから値が入力された場合
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -14,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   /* バリデーション */
   // 確認用パスワードとの一致
   if ($pass !== $pass_check) {
-    $errors['pass_check'] = '※確認用パスワードが一致しません';
+    $errors = '※確認用パスワードが一致しません';
   }
 
   // メールアドレスの重複
@@ -25,10 +26,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $validations = new Validation;
   $errors = $validations->errors($user , $name , $email);
 
-  // バリデーションクリア（エラーメッセージなし）の場合
+  $session = Session::getInstance();
+  if (isset($errors)) {
+    $session->appendError($errors);
+  }
+  
+  if ($session->existsErrors()) {
+    $formInputs = [
+        'mail' => $mail,
+        'userName' => $userName,
+    ];
+    $session->setFormInputs($formInputs);
+    $request = new Action;
+    $action = $request->redirect1('user/siginup.php');
+  }
+  //バリデーションクリア（エラーメッセージなし）の場合
   if (empty($errors)) {
     // パスワードの暗号化
     $hash_pass = password_hash($pass, PASSWORD_DEFAULT);
+    
 
     // ユーザー登録処理
     $obj = new SqlInsert();

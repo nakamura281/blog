@@ -1,9 +1,12 @@
 <?php 
 //ログインしていない時の処理
 session_start();
-include __DIR__ . ('/SqlSelect.php');
-include __DIR__ . ('/Action.php');
-if (empty($_SESSION['id'])) {
+include __DIR__ . ('/../app/Lib/SqlSelect.php');
+include __DIR__ . ('/../app/Lib/Action.php');
+include_once __DIR__ . ('/../app/Lib/Session.php');
+
+$session = Session::getInstance();
+if (!isset($_SESSION['formInputs']['userId'])) {
   $request = new Action;
   $action = $request->redirect('user/siginin.php');
 }
