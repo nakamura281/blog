@@ -5,7 +5,9 @@ if (isset($_SESSION['formInputs']['userId'])) {
 }
 ?>
 <?php
-include_once __DIR__ . ('/../../app/Lib/Session.php');
+include_once __DIR__ . ('/../../vendor/autoload.php');
+
+use App\Lib\Session;
 
 session_start();
 

@@ -1,9 +1,9 @@
 <?php
-session_start();
 include __DIR__ . ('/../app/Lib/SqlSelect.php');
-include_once __DIR__ . ('/../app/Lib/Session.php');
-$user_id = $_SESSION['formInputs']['userId'];
 
+session_start();
+
+$user_id = $_SESSION['formInputs']['userId'];
 $obj = new SqlSelect();
 //user_idで絞り込む
 $sql = "SELECT * FROM blogs WHERE user_id = :user_id ORDER BY id DESC";

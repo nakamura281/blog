@@ -1,7 +1,8 @@
 <?php
-session_start();
 include __DIR__ . ('/../app/Lib/SqlSelect.php');
-include_once __DIR__ . ('/../app/Lib/Session.php');
+
+session_start();
+
 //userのid
 $user_id = $_SESSION['formInputs']['userId'];
 //blogのid

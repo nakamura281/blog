@@ -1,5 +1,8 @@
 <?php
-include_once __DIR__ . ('/../../app/Lib/Session.php');
+include_once __DIR__ . ('/../../vendor/autoload.php');
+
+use App\Lib\Session;
+
 $session = Session::getInstance();
 $errors = $session->popAllErrors();
 $successRegistedMessage = $session->getMessage();

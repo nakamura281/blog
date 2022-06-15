@@ -1,7 +1,7 @@
 <?php
 include __DIR__ . ('/../app/Lib/SqlSelect.php');
-$id = filter_input(INPUT_POST, "id");
 
+$id = filter_input(INPUT_POST, "id");
 $obj = new SqlSelect();
 //idで絞り込む
 $sql = "SELECT * FROM blogs WHERE id = :id ";

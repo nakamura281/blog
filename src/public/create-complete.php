@@ -1,8 +1,8 @@
 <?php
-session_start();
 include __DIR__ . ('/../app/Lib/SqlInsert.php');
 include __DIR__ . ('/../app/Lib/Action.php');
-include_once __DIR__ . ('/../app/Lib/Session.php');
+
+session_start();
 
 $user_id = $_SESSION['formInputs']['userId'];
 $title = filter_input(INPUT_POST, "title");

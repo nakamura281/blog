@@ -3,7 +3,9 @@
 session_start();
 include __DIR__ . ('/../app/Lib/SqlSelect.php');
 include __DIR__ . ('/../app/Lib/Action.php');
-include_once __DIR__ . ('/../app/Lib/Session.php');
+include_once __DIR__ . ('/../vendor/autoload.php');
+
+use App\Lib\Session;
 
 $session = Session::getInstance();
 if (!isset($_SESSION['formInputs']['userId'])) {
