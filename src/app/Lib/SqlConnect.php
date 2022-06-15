@@ -1,4 +1,7 @@
 <?php
+/**
+ * データベースに接続するクラス
+ */
 class SqlConnect 
 {
   const DBUSERNAME = "root";
