@@ -1,4 +1,7 @@
 <?php
+/**
+ * データベースのデータをアップデートする時に使うクラス
+ */
 include_once  __DIR__ . ('/SqlConnect.php');
 class SqlUpdate
 {

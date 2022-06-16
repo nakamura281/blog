@@ -1,7 +1,9 @@
 <?php
+/**
+ * リダイレクトを行うクラス
+ */
 class Action
 {
-  //リダイレクト
   function redirect(string $redirectPath): void
   {
 	  header("Location: " . $redirectPath);

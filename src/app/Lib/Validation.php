@@ -1,4 +1,7 @@
 <?php
+/**
+ * バリデーションをまとめているクラス
+ */
 class Validation
 {
   function errors($user , $name , $email)

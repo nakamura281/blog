@@ -1,4 +1,7 @@
 <?php
+/**
+ * データベースにデータを追加する時に使うクラス
+ */
 include_once  __DIR__ . ('/Sqlconnect.php');
 class SqlInsert
 {

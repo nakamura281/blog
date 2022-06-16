@@ -4,6 +4,7 @@ include __DIR__ . ('/../app/Lib/Action.php');
 include_once __DIR__ . ('/../vendor/autoload.php');
 
 use App\Lib\Session;
+use App\Lib\SessionKey;
 
 $email = filter_input(INPUT_POST, "email");
 $pass = filter_input(INPUT_POST, "pass");
@@ -32,7 +33,8 @@ if (password_verify($pass , $member[0]["password"])) {
     'userId' => $member[0]['id'],
     'userName' => $member[0]['name'],
   ];  
-  $session->setFormInputs($formInputs);
+  $formInputsKey = new SessionKey(SessionKey::FORM_INPUTS_KEY);
+  $session->setFormInputs($formInputsKey, $formInputs);
 
   //トップページへリダイレクト
   $request = new Action;

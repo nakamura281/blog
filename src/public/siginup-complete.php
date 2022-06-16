@@ -6,6 +6,7 @@ include (__DIR__ . '/../app/Lib/SqlInsert.php');
 include_once (__DIR__ . '/../vendor/autoload.php');
 
 use App\Lib\Session;
+use App\Lib\SessionKey;
 
 // フォームから値が入力された場合
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -38,7 +39,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'mail' => $mail,
         'userName' => $userName,
     ];
-    $session->setFormInputs($formInputs);
+    $formInputsKey = new SessionKey(SessionKey::FORM_INPUTS_KEY);
+    $session->setFormInputs($formInputsKey, $formInputs);
     $request = new Action;
     $action = $request->redirect1('user/siginup.php');
   }
