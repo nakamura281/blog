@@ -1,15 +1,12 @@
 <?php
-include __DIR__ . ('/../app/Lib/SqlSelect.php');
+include __DIR__ . ('/../app/Infrastructure/UserDao.php');
 include __DIR__ . ('/../app/Lib/Action.php');
 include_once __DIR__ . ('/../vendor/autoload.php');
 
 use App\Lib\Session;
-use App\Lib\SessionKey;
 
 $email = filter_input(INPUT_POST, "email");
 $pass = filter_input(INPUT_POST, "pass");
-
-session_start();
 
 $session = Session::getInstance();
 
@@ -22,27 +19,21 @@ if (empty($email) || empty($pass)) {
 }
 
 // バリデーションクリア（エラーメッセージなし）の場合
-$obj = new SqlSelect();
-$sql = "SELECT * FROM users WHERE email = :email ORDER BY id DESC";
-$member = $obj->select1($sql , $email);
+$userDao = new UserDao();
+$member = $userDao->findByEmail($email);
 
-//指定したハッシュがパスワードにマッチしているかチェック
-if (password_verify($pass , $member[0]["password"])) {
-  //DBのユーザー情報をセッションに保存
-  $formInputs = [
-    'userId' => $member[0]['id'],
-    'userName' => $member[0]['name'],
-  ];  
-  $formInputsKey = new SessionKey(SessionKey::FORM_INPUTS_KEY);
-  $session->setFormInputs($formInputsKey, $formInputs);
 
-  //トップページへリダイレクト
+if (!password_verify($pass, $member['password'])) {
+  $_SESSION['errors'][] = 'メールアドレスまたは<br />パスワードが違います';
+  // バリデーションを持ってログインページへ
   $request = new Action;
-  $action = $request->redirect('index.php');
+  $action = $request->redirect1('user/siginin.php');
 }
-//メールアドレスまたはパスワードが違う
-$session->appendError('メールアドレスまたは<br />パスワードが違います');
-// バリデーションを持ってログインページへ
+
+$_SESSION['formInputs']['userId'] = $member['id'];
+$_SESSION['formInputs']['name'] = $member['name'];
+//トップページへリダイレクト
 $request = new Action;
-$action = $request->redirect1('user/siginin.php');
+$action = $request->redirect('index.php');
+
  
