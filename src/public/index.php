@@ -1,12 +1,12 @@
 <?php 
-//ログインしていない時の処理
 session_start();
-include __DIR__ . ('/../app/Lib/SqlSelect.php');
 include __DIR__ . ('/../app/Lib/Action.php');
 include_once __DIR__ . ('/../vendor/autoload.php');
 
 use App\Lib\Session;
+use App\Infrastructure\BlogDao;
 
+//ログインしていない時の処理
 $session = Session::getInstance();
 if (!isset($_SESSION['formInputs']['userId'])) {
   $request = new Action;
@@ -14,17 +14,11 @@ if (!isset($_SESSION['formInputs']['userId'])) {
 }
 ?>
 <?php
-$obj = new SqlSelect();
+$obj = new BlogDao();
 
 //検索機能
 $search_word = filter_input(INPUT_POST, "word");
-if ($search_word == "") {
-  $sql = "SELECT * FROM blogs";
-  $contacts = $obj->select($sql);
- } else {
-   $sql = "SELECT * FROM blogs WHERE content LIKE '%" . $search_word . "%' OR title LIKE '%" . $search_word . "%'";
-   $contacts = $obj->select($sql);
-}
+$contacts = $obj->select($search_word);
 
 //並び替え機能
 foreach ($contacts as $value) {

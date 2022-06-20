@@ -1,6 +1,8 @@
 <?php
-include __DIR__ . ('/../app/Lib/SqlInsert.php');
 include __DIR__ . ('/../app/Lib/Action.php');
+include_once __DIR__ . ('/../vendor/autoload.php');
+
+use App\Infrastructure\BlogDao;
 
 session_start();
 
@@ -8,14 +10,9 @@ $user_id = $_SESSION['formInputs']['userId'];
 $title = filter_input(INPUT_POST, "title");
 $content = filter_input(INPUT_POST, "content");
 
-$obj = new SqlInsert();
+$obj = new BlogDao();
 //データベースに追加
-$sql = "INSERT INTO blogs (
-  user_id , title , content , created_at , updated_at	
-  ) VALUES (
-  :user_id , :title , :content , now() , now()
-  )";
-$stmt = $obj->insert($sql , $user_id , $title , $content);
+$stmt = $obj->insert($user_id , $title , $content);
 
 //マイページへリダイレクト
 $request = new Action;
