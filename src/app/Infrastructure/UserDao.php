@@ -1,26 +1,20 @@
 <?php
-include_once  __DIR__ . ('/../Lib/Sqlconnect.php');
+namespace App\Infrastructure;
+
+include_once  __DIR__ . ('/../../vendor/autoload.php');
+
+use PDO;
+
 if(class_exists("UserDao")) return;
 /**
  * ユーザー情報を操作するDAO
  */
-final class UserDao
+final class UserDao extends Dao
 {
   /**
      * DBのテーブル名
      */
     const TABLE_NAME = 'users';
-    private $hoge;
-
-    public function __construct()
-    {
-        try {
-          $obj = new SqlConnect();
-          $this->pdo = $obj->pdo();
-        } catch (PDOException $e) {
-            exit('DB接続エラー:' . $e->getMessage());
-        }
-    }
 
     /**
      * ユーザーを追加する

@@ -1,9 +1,9 @@
 <?php
-include __DIR__ . ('/../app/Infrastructure/UserDao.php');
 include __DIR__ . ('/../app/Lib/Action.php');
 include_once __DIR__ . ('/../vendor/autoload.php');
 
 use App\Lib\Session;
+use App\Infrastructure\UserDao;
 
 $email = filter_input(INPUT_POST, "email");
 $pass = filter_input(INPUT_POST, "pass");
