@@ -18,16 +18,16 @@ $obj = new BlogDao();
 
 //検索機能
 $search_word = filter_input(INPUT_POST, "word");
-$contacts = $obj->select($search_word);
+$contacts = $obj->searchWord($search_word);
 
 //並び替え機能
 foreach ($contacts as $value) {
   $array[] = $value['created_at'];
 }
 if ($_GET["order"] === "desc") {
-  array_multisort($array , SORT_DESC , $contacts);
+  array_multisort($array, SORT_DESC, $contacts);
 } elseif ($_GET["order"] === "asc") {
-  array_multisort($array , SORT_ASC , $contacts);
+  array_multisort($array, SORT_ASC, $contacts);
 }
 
 ?>

@@ -12,7 +12,7 @@ $content = filter_input(INPUT_POST, "content");
 
 $obj = new BlogDao();
 //データベースに追加
-$stmt = $obj->insert($user_id , $title , $content);
+$stmt = $obj->insert($user_id, $title, $content);
 
 //マイページへリダイレクト
 $request = new Action;

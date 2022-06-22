@@ -3,7 +3,7 @@ namespace App\Infrastructure;
 
 use PDO;
 
-if(class_exists("Dao")) return;
+if (class_exists("Dao")) return;
 abstract class Dao
 {
     const DB_USER = 'root';

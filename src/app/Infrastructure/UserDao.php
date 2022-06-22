@@ -5,7 +5,7 @@ include_once  __DIR__ . ('/../../vendor/autoload.php');
 
 use PDO;
 
-if(class_exists("UserDao")) return;
+if (class_exists("UserDao")) return;
 /**
  * ユーザー情報を操作するDAO
  */
@@ -27,7 +27,7 @@ final class UserDao extends Dao
         $hashedPassword = password_hash($pass, PASSWORD_DEFAULT);
 
         $sql = sprintf(
-            'INSERT INTO %s (name, email, password , created_at , updated_at) VALUES (:name, :email, :password , now() , now())',
+            'INSERT INTO %s (name, email, password, created_at, updated_at) VALUES (:name, :email, :password, now(), now())',
             self::TABLE_NAME
         );
         $statement = $this->pdo->prepare($sql);

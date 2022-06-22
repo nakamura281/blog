@@ -5,7 +5,7 @@ include_once  __DIR__ . ('/../../vendor/autoload.php');
 
 use PDO;
 
-if(class_exists("CommentDao")) return;
+if (class_exists("CommentDao")) return;
 /**
  * コメントのDBを操作する
  */
@@ -19,14 +19,14 @@ final class CommentDao extends Dao
   /**
    * コメントを取得
    */
-  public function select2($id)
+  public function searchById($id)
   {
     $sql = sprintf(
       "SELECT * FROM %s WHERE blog_id = :id",
       self::TABLE_NAME
     );
     $stmt = $this->pdo->prepare($sql);
-    $stmt->bindParam(":id" , $id , PDO:: PARAM_STR);
+    $stmt->bindParam(":id", $id, PDO:: PARAM_STR);
     $stmt->execute(); 
     $contacts = $stmt->fetchAll(PDO::FETCH_ASSOC);
     return $contacts;
@@ -35,21 +35,21 @@ final class CommentDao extends Dao
   /**
    * コメントの追加
    */
-  public function insert1($user_id , $blog_id , $commenter_name , $comments)
+  public function addToDb($user_id, $blog_id, $commenter_name, $comments)
   {
     $sql = sprintf(
       "INSERT INTO %s (
-        user_id , blog_id , commenter_name , comments , created_at , updated_at	
+        user_id, blog_id, commenter_name, comments, created_at, updated_at	
         ) VALUES (
-        :user_id , :blog_id , :commenter_name , :comments , now() , now()
+        :user_id, :blog_id, :commenter_name, :comments, now(), now()
       )",
       self::TABLE_NAME
     );
     $stmt = $this->pdo->prepare($sql);
-    $stmt->bindParam(":user_id" , $user_id , PDO:: PARAM_STR);
+    $stmt->bindParam(":user_id", $user_id, PDO:: PARAM_STR);
     $stmt->bindParam(':blog_id', $blog_id, PDO::PARAM_STR);
-    $stmt->bindParam(":commenter_name", $commenter_name , PDO:: PARAM_STR);
-    $stmt->bindParam(":comments", $comments , PDO:: PARAM_STR);
+    $stmt->bindParam(":commenter_name", $commenter_name, PDO:: PARAM_STR);
+    $stmt->bindParam(":comments", $comments, PDO:: PARAM_STR);
     $stmt->execute(); 
     return $stmt;
   }

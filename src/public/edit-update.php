@@ -8,7 +8,7 @@ $title = filter_input(INPUT_POST, "title");
 $content = filter_input(INPUT_POST, "content");
 
 $obj = new BlogDao();
-$stmt = $obj->update($id , $title , $content);
+$stmt = $obj->update($id, $title, $content);
 
 ?>
 <!DOCTYPE html>

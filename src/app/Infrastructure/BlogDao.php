@@ -5,7 +5,7 @@ include_once  __DIR__ . ('/../../vendor/autoload.php');
 
 use PDO;
 
-if(class_exists("BlogDao")) return;
+if (class_exists("BlogDao")) return;
 /**
  * コメントのDBを操作する
  */
@@ -19,7 +19,7 @@ final class BlogDao extends Dao
   /**
    * blogを取得する
    */
-  public function select($search_word)
+  public function searchWord($search_word)
   {
     if ($search_word == "") {
       $sql = "SELECT * FROM blogs";
@@ -32,27 +32,27 @@ final class BlogDao extends Dao
     return $contacts;
   }
 
-  public function select2($id)
+  public function searchById($id)
   {
     $sql = sprintf(
       "SELECT * FROM %s WHERE id = :id",
       self::TABLE_NAME
     );
     $stmt = $this->pdo->prepare($sql);
-    $stmt->bindParam(":id" , $id , PDO:: PARAM_STR);
+    $stmt->bindParam(":id", $id, PDO:: PARAM_STR);
     $stmt->execute(); 
     $contacts = $stmt->fetchAll(PDO::FETCH_ASSOC);
     return $contacts;
   }
 
-  public function select3($user_id)
+  public function searchByUserId($user_id)
   {
     $sql = sprintf(
       "SELECT * FROM %s WHERE user_id = :user_id ORDER BY id DESC",
       self::TABLE_NAME
     );
     $stmt = $this->pdo->prepare($sql);
-    $stmt->bindParam(":user_id" , $user_id , PDO:: PARAM_STR);
+    $stmt->bindParam(":user_id", $user_id, PDO:: PARAM_STR);
     $stmt->execute(); 
     $contacts = $stmt->fetchAll(PDO::FETCH_ASSOC);
     return $contacts;
@@ -68,7 +68,7 @@ final class BlogDao extends Dao
       self::TABLE_NAME
     );
     $stmt = $this->pdo->prepare($sql);
-    $stmt->bindParam(":id" , $id , PDO:: PARAM_STR);
+    $stmt->bindParam(":id", $id, PDO:: PARAM_STR);
     $stmt->execute(); 
     return $stmt;
   }
@@ -76,20 +76,20 @@ final class BlogDao extends Dao
   /**
    * blogを追加する
    */
-  public function insert($user_id , $title , $content)
+  public function insert($user_id, $title, $content)
   { 
     $sql = sprintf(
       "INSERT INTO %s (
-        user_id , title , content , created_at , updated_at	
+        user_id, title, content, created_at, updated_at	
         ) VALUES (
-        :user_id , :title , :content , now() , now()
+        :user_id, :title, :content, now(), now()
       )",
       self::TABLE_NAME
     );
     $stmt = $this->pdo->prepare($sql);
-    $stmt->bindParam(":user_id" , $user_id , PDO:: PARAM_STR);
-    $stmt->bindParam(":title" , $title , PDO:: PARAM_STR);
-    $stmt->bindParam(":content" , $content , PDO:: PARAM_STR);
+    $stmt->bindParam(":user_id", $user_id, PDO:: PARAM_STR);
+    $stmt->bindParam(":title", $title, PDO:: PARAM_STR);
+    $stmt->bindParam(":content", $content, PDO:: PARAM_STR);
     $stmt->execute(); 
     return $stmt;
   }
@@ -97,16 +97,16 @@ final class BlogDao extends Dao
   /**
    * blogを編集する
    */
-  public function update($id , $title , $content)
+  public function update($id, $title, $content)
   {
     $sql = sprintf(
-      "UPDATE %s SET title = :title , content = :content , updated_at = now() WHERE  id = :id",
+      "UPDATE %s SET title = :title, content = :content, updated_at = now() WHERE  id = :id",
       self::TABLE_NAME
     );
     $stmt = $this->pdo->prepare($sql);
-    $stmt->bindParam(":id" , $id , PDO:: PARAM_STR);
-    $stmt->bindParam(":title" , $title , PDO:: PARAM_STR);
-    $stmt->bindParam(":content" , $content , PDO:: PARAM_STR);
+    $stmt->bindParam(":id", $id , PDO:: PARAM_STR);
+    $stmt->bindParam(":title", $title , PDO:: PARAM_STR);
+    $stmt->bindParam(":content", $content , PDO:: PARAM_STR);
     $stmt->execute(); 
     return $stmt;
   }

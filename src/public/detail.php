@@ -13,11 +13,11 @@ $id = filter_input(INPUT_POST, "id");
 
 $obj = new BlogDao();
 //idで絞り込む（ブログ記事のDB）
-$contacts = $obj->select2($id);
+$contacts = $obj->searchById($id);
 
 $obj = new CommentDao();
 //コメントのDB
-$contacts1 = $obj->select2($id);
+$contacts1 = $obj->searchById($id);
 ?>
 <!DOCTYPE html>
 <html lang="ja">

@@ -5,7 +5,7 @@ use App\Infrastructure\BlogDao;
 
 $id = filter_input(INPUT_POST, "id");
 $obj = new BlogDao();
-$contacts = $obj->select2($id);
+$contacts = $obj->searchById($id);
 ?>
 <!DOCTYPE html>
 <html lang="ja">

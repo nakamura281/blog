@@ -10,7 +10,7 @@ $blog_id = filter_input(INPUT_POST, "id");
 $user_id = filter_input(INPUT_POST, "user_id");
 
 $obj = new CommentDao();
-$stmt = $obj->insert1($user_id , $blog_id , $commenter_name , $comments);
+$stmt = $obj->addToDb($user_id, $blog_id, $commenter_name, $comments);
 //リダイレクト
 $request = new Action;
 $action = $request->redirect('detail.php');

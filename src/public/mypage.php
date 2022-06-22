@@ -8,8 +8,7 @@ session_start();
 $user_id = $_SESSION['formInputs']['userId'];
 $obj = new BlogDao();
 //user_idで絞り込む
-$sql = "SELECT * FROM blogs WHERE user_id = :user_id ORDER BY id DESC";
-$contacts = $obj->select3($sql , $user_id);
+$contacts = $obj->searchByUserId($user_id);
 ?>
 <!DOCTYPE html>
 <html lang="ja">

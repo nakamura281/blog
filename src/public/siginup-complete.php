@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   }
   
   $validations = new Validation;
-  $errors = $validations->errors($user , $name , $email);
+  $errors = $validations->errors($user, $name, $email);
 
   $session = Session::getInstance();
   if (isset($errors)) {
