@@ -19,7 +19,7 @@ final class CommentDao extends Dao
   /**
    * コメントを取得
    */
-  public function searchById($id)
+  public function searchById(int $id): array
   {
     $sql = sprintf(
       "SELECT * FROM %s WHERE blog_id = :id",
@@ -35,7 +35,7 @@ final class CommentDao extends Dao
   /**
    * コメントの追加
    */
-  public function addToDb($user_id, $blog_id, $commenter_name, $comments)
+  public function addToDb(int $user_id, int $blog_id, string $commenter_name, string $comments): void
   {
     $sql = sprintf(
       "INSERT INTO %s (
@@ -51,7 +51,6 @@ final class CommentDao extends Dao
     $stmt->bindParam(":commenter_name", $commenter_name, PDO:: PARAM_STR);
     $stmt->bindParam(":comments", $comments, PDO:: PARAM_STR);
     $stmt->execute(); 
-    return $stmt;
   }
 
 }

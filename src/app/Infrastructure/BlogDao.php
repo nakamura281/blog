@@ -19,9 +19,9 @@ final class BlogDao extends Dao
   /**
    * blogを取得する
    */
-  public function searchWord($search_word)
+  public function searchWord(string $search_word = null): array
   {
-    if ($search_word == "") {
+    if ($search_word == "NULL") {
       $sql = "SELECT * FROM blogs";
     } else {
       $sql = "SELECT * FROM blogs WHERE content LIKE '%" . $search_word . "%' OR title LIKE '%" . $search_word . "%'";
@@ -32,7 +32,7 @@ final class BlogDao extends Dao
     return $contacts;
   }
 
-  public function searchById($id)
+  public function searchById(int $id): array
   {
     $sql = sprintf(
       "SELECT * FROM %s WHERE id = :id",
@@ -45,7 +45,7 @@ final class BlogDao extends Dao
     return $contacts;
   }
 
-  public function searchByUserId($user_id)
+  public function searchByUserId(int $user_id): array
   {
     $sql = sprintf(
       "SELECT * FROM %s WHERE user_id = :user_id ORDER BY id DESC",
@@ -61,7 +61,7 @@ final class BlogDao extends Dao
   /**
    * blogを削除する
    */
-  public function delete($id)
+  public function delete(int $id): void
   {
     $sql = sprintf(
       "DELETE FROM %s WHERE id = :id",
@@ -70,13 +70,12 @@ final class BlogDao extends Dao
     $stmt = $this->pdo->prepare($sql);
     $stmt->bindParam(":id", $id, PDO:: PARAM_STR);
     $stmt->execute(); 
-    return $stmt;
   }
 
   /**
    * blogを追加する
    */
-  public function insert($user_id, $title, $content)
+  public function insert(int $user_id, string $title, string $content): void
   { 
     $sql = sprintf(
       "INSERT INTO %s (
@@ -91,13 +90,12 @@ final class BlogDao extends Dao
     $stmt->bindParam(":title", $title, PDO:: PARAM_STR);
     $stmt->bindParam(":content", $content, PDO:: PARAM_STR);
     $stmt->execute(); 
-    return $stmt;
   }
 
   /**
    * blogを編集する
    */
-  public function update($id, $title, $content)
+  public function update(int $id, string $title, string $content): void
   {
     $sql = sprintf(
       "UPDATE %s SET title = :title, content = :content, updated_at = now() WHERE  id = :id",
@@ -108,7 +106,6 @@ final class BlogDao extends Dao
     $stmt->bindParam(":title", $title , PDO:: PARAM_STR);
     $stmt->bindParam(":content", $content , PDO:: PARAM_STR);
     $stmt->execute(); 
-    return $stmt;
   }
 
 }  
