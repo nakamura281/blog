@@ -1,11 +1,11 @@
 <?php
 include (__DIR__ . '/../app/Lib/Validation.php');
 include (__DIR__ . '/../app/Lib/Action.php');
-include (__DIR__ . '/../app/Infrastructure/UserDao.php');
 include_once (__DIR__ . '/../vendor/autoload.php');
 
 use App\Lib\Session;
 use App\Lib\SessionKey;
+use App\Infrastructure\UserDao;
 
 // フォームから値が入力された場合
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   }
   
   $validations = new Validation;
-  $errors = $validations->errors($user , $name , $email);
+  $errors = $validations->errors($user, $name, $email);
 
   $session = Session::getInstance();
   if (isset($errors)) {

@@ -1,13 +1,14 @@
 <?php 
-include __DIR__ . ('/../app/Lib/sqlUpdate.php');
+include_once __DIR__ . ('/../vendor/autoload.php');
+
+use App\Infrastructure\BlogDao;
 
 $id = filter_input(INPUT_POST, "id");
 $title = filter_input(INPUT_POST, "title");
 $content = filter_input(INPUT_POST, "content");
 
-$obj = new SqlUpdate();
-$sql = "UPDATE blogs SET title = :title , content = :content , updated_at = now() WHERE  id = :id";
-$stmt = $obj->update($sql , $id , $title , $content);
+$obj = new BlogDao();
+$stmt = $obj->update($id, $title, $content);
 
 ?>
 <!DOCTYPE html>

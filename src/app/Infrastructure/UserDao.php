@@ -1,26 +1,20 @@
 <?php
-include_once  __DIR__ . ('/../Lib/Sqlconnect.php');
-if(class_exists("UserDao")) return;
+namespace App\Infrastructure;
+
+include_once  __DIR__ . ('/../../vendor/autoload.php');
+
+use PDO;
+
+if (class_exists("UserDao")) return;
 /**
  * ユーザー情報を操作するDAO
  */
-final class UserDao
+final class UserDao extends Dao
 {
   /**
      * DBのテーブル名
      */
     const TABLE_NAME = 'users';
-    private $hoge;
-
-    public function __construct()
-    {
-        try {
-          $obj = new SqlConnect();
-          $this->pdo = $obj->pdo();
-        } catch (PDOException $e) {
-            exit('DB接続エラー:' . $e->getMessage());
-        }
-    }
 
     /**
      * ユーザーを追加する
@@ -33,7 +27,7 @@ final class UserDao
         $hashedPassword = password_hash($pass, PASSWORD_DEFAULT);
 
         $sql = sprintf(
-            'INSERT INTO %s (name, email, password , created_at , updated_at) VALUES (:name, :email, :password , now() , now())',
+            'INSERT INTO %s (name, email, password, created_at, updated_at) VALUES (:name, :email, :password, now(), now())',
             self::TABLE_NAME
         );
         $statement = $this->pdo->prepare($sql);

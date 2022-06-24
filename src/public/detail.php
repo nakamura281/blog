@@ -1,5 +1,8 @@
 <?php
-include __DIR__ . ('/../app/Lib/SqlSelect.php');
+include_once (__DIR__ . '/../vendor/autoload.php');
+
+use App\Infrastructure\CommentDao;
+use App\Infrastructure\BlogDao;
 
 session_start();
 
@@ -8,14 +11,13 @@ $user_id = $_SESSION['formInputs']['userId'];
 //blogのid
 $id = filter_input(INPUT_POST, "id");
 
-$obj = new SqlSelect();
+$obj = new BlogDao();
 //idで絞り込む（ブログ記事のDB）
-$sql = "SELECT * FROM blogs WHERE id = :id ";
-$contacts = $obj->select2($sql , $id);
+$contacts = $obj->searchById($id);
 
+$obj = new CommentDao();
 //コメントのDB
-$sql1 = "SELECT * FROM comments WHERE blog_id = :id";
-$contacts1 = $obj->select2($sql1 , $id);
+$contacts1 = $obj->searchById($id);
 ?>
 <!DOCTYPE html>
 <html lang="ja">

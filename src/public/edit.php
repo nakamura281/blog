@@ -1,10 +1,11 @@
 <?php
-include __DIR__ . ('/../app/Lib/SqlSelect.php');
+include_once __DIR__ . ('/../vendor/autoload.php');
+
+use App\Infrastructure\BlogDao;
 
 $id = filter_input(INPUT_POST, "id");
-$obj = new SqlSelect();
-$sql = "SELECT * FROM blogs WHERE id = :id ";
-$contacts = $obj->select2($sql , $id);
+$obj = new BlogDao();
+$contacts = $obj->searchById($id);
 ?>
 <!DOCTYPE html>
 <html lang="ja">
