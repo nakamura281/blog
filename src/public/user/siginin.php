@@ -1,11 +1,10 @@
 <?php
-include_once __DIR__ . ('/../../vendor/autoload.php');
+session_start();
+$errors = $_SESSION['errors'] ?? [];
+unset($_SESSION['errors']);
 
-use App\Lib\Session;
-
-$session = Session::getInstance();
-$errors = $session->popAllErrors();
-$successRegistedMessage = $session->getMessage();
+$successRegistedMessage = $_SESSION['message'] ?? '';
+unset($_SESSION['message']);
 ?>
 <!DOCTYPE html>
 <html lang="ja">

@@ -3,9 +3,8 @@ include (__DIR__ . '/../app/Lib/Validation.php');
 include (__DIR__ . '/../app/Lib/Action.php');
 include_once (__DIR__ . '/../vendor/autoload.php');
 
-use App\Lib\Session;
-use App\Lib\SessionKey;
-use App\Infrastructure\UserDao;
+use App\Usecase\UseCaseInput\SignUpInput;
+use App\Usecase\UseCaseInteractor\SignUpInteractor;
 
 // フォームから値が入力された場合
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -16,46 +15,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
   /* バリデーション */
   // 確認用パスワードとの一致
-  if ($pass !== $pass_check) {
-    $errors = '※確認用パスワードが一致しません';
-  }
-  
-  $validations = new Validation;
-  $errors = $validations->errors($user, $name, $email);
-
-  $session = Session::getInstance();
-  if (isset($errors)) {
-    $session->appendError($errors);
-  }
-  
-  if ($session->existsErrors()) {
-    $formInputs = [
-        'mail' => $mail,
-        'userName' => $userName,
-    ];
-    $formInputsKey = new SessionKey(SessionKey::FORM_INPUTS_KEY);
-    $session->setFormInputs($formInputsKey, $formInputs);
-    $request = new Action;
-    $action = $request->redirect1('user/siginup.php');
-  }
-  //バリデーションクリア（エラーメッセージなし）の場合
-  if (empty($errors)) {
-    $userDao = new UserDao();
-    $user = $userDao->findByEmail($email);
-
-    if (!is_null($user)) {
-      $_SESSION['errors'][] = 'すでに登録済みのメールアドレスです';
+  try {
+    session_start();
+    if (empty($pass) || empty($pass_check)) {
+        throw new Exception('パスワードを入力してください');
     }
+    if ($pass !== $pass_check) {
+        throw new Exception('パスワードが一致しません');
+    }
+    $useCaseInput = new SignUpInput($name, $email, $pass);
+    $useCase = new SignUpInteractor($useCaseInput);
+    $useCaseOutput = $useCase->handler();
 
-    $userDao->create($name, $email, $pass);
-
+    if (!$useCaseOutput->isSuccess()) {
+        throw new Exception($useCaseOutput->message());
+    }
+    $_SESSION['errors'][] = $useCaseOutput->message();
     // サインインページへリダイレクト
     $request = new Action;
     $action = $request->redirect('user/siginin.php');
-  } else {
+  } catch (Exception $e) {
+    $_SESSION['errors'][] = $e->getMessage();
+    $_SESSION['formInputs']['name'] = $name;
+    $_SESSION['formInputs']['email'] = $email;
     // バリデーションを持って登録画面へ
     $request = new Action;
     $action = $request->redirect1('user/siginup.php');
   }
+  
 }
 ?>
