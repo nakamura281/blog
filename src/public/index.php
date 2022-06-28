@@ -3,11 +3,9 @@ session_start();
 include __DIR__ . ('/../app/Lib/Action.php');
 include_once __DIR__ . ('/../vendor/autoload.php');
 
-use App\Lib\Session;
 use App\Infrastructure\BlogDao;
 
 //ログインしていない時の処理
-$session = Session::getInstance();
 if (!isset($_SESSION['formInputs']['userId'])) {
   $request = new Action;
   $action = $request->redirect('user/siginin.php');

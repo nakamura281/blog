@@ -6,7 +6,7 @@ class Action
 {
   function redirect(string $redirectPath): void
   {
-	  header("Location: " . $redirectPath);
+	  header("Location:" . $redirectPath);
 	  exit;
   }
   function redirect1(string $redirectPath): void

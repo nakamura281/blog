@@ -19,7 +19,7 @@ final class BlogDao extends Dao
   /**
    * blogを取得する
    */
-  public function searchWord(string $search_word = null): array
+  public function searchWord(string $search_word = null): ?array
   {
     if ($search_word == "NULL") {
       $sql = "SELECT * FROM blogs";
@@ -29,7 +29,7 @@ final class BlogDao extends Dao
     $stmt = $this->pdo->prepare($sql);
     $stmt->execute(); 
     $contacts = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    return $contacts;
+    return $contacts ? $contacts : null;
   }
 
   public function searchById(int $id): array
