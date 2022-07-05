@@ -7,6 +7,7 @@ use App\Usecase\UseCaseOutput\CommentOutput;
 final class CommentInteractor
 {
     const FAILED_MESSAGE = '名前または<br />内容を入力してください！';
+    const COMPLETED_MESSAGE = 'コメントを追加しました！';
 
     private $input;
 
@@ -20,11 +21,11 @@ final class CommentInteractor
         $commenter = $this->input->commenter();
         $comments = $this->input->comments();
 
-        if ($commenter === "" || $comments === "") {
+        if (empty($commenter) || empty($comments)) {
             return new CommentOutput(false, self::FAILED_MESSAGE);
         }
 
-        return new CommentOutput(true, "");
+        return new CommentOutput(true, self::COMPLETED_MESSAGE);
     }
     
 }

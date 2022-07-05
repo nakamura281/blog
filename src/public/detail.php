@@ -9,14 +9,17 @@ session_start();
 $errors = $_SESSION['errors'] ?? [];
 unset($_SESSION['errors']);
 
+$successMessage = $_SESSION['message'] ?? '';
+unset($_SESSION['message']);
+
 //userのid
 $user_id = $_SESSION['formInputs']['userId'];
 //blogのid
-$id = $_SESSION['id'][0]; 
+$id = $_SESSION['blog_id'][0]; 
 if ($id === NULL) {
   $id = filter_input(INPUT_POST, "id");
 }
-unset($_SESSION['id']);
+unset($_SESSION['blog_id']);
 
 $obj = new BlogDao();
 //idで絞り込む（ブログ記事のDB）
@@ -34,6 +37,12 @@ $contacts1 = $obj->searchById($id);
 </head>
 <body>
   <main>
+  <?php if (!empty($successMessage)) : ?>
+  <?php
+    $alert = "<script type='text/javascript'>alert('". $successMessage. "');</script>";
+    echo $alert;
+  ?>
+  <? endif; ?>
   <form method="post">
     <?php foreach($contacts as $row) : ?>
       <span style="text-align: center">

@@ -20,15 +20,15 @@ $useCaseOutput = $useCase->handler();
 
 if (!$useCaseOutput->isSuccess()) {
   $_SESSION['errors'][] = $useCaseOutput->message();
-  $_SESSION['id'][] = $blog_id;
+  $_SESSION['blog_id'][] = $blog_id;
   $request = new Action;
   $action = $request->redirect('detail.php');
-  exit;
 }
-$obj = new CommentDao();
-$stmt = $obj->addToDb($user_id, $blog_id, $commenter, $comments);
+$commentDao = new CommentDao();
+$statement = $commentDao->addToDb($user_id, $blog_id, $commenter, $comments);
 //リダイレクト
-$_SESSION['id'][] = $blog_id;
+$_SESSION['blog_id'][] = $blog_id;
+$_SESSION['message'] = $useCaseOutput->message();
 $request = new Action;
 $action = $request->redirect('detail.php');
 ?>
