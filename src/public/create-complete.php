@@ -2,7 +2,8 @@
 include __DIR__ . ('/../app/Lib/Action.php');
 include_once __DIR__ . ('/../vendor/autoload.php');
 
-use App\Infrastructure\BlogDao;
+use App\Usecase\UseCaseInput\CreateInput;
+use App\Usecase\UseCaseInteractor\CreateInteractor;
 
 session_start();
 
@@ -10,11 +11,17 @@ $user_id = $_SESSION['formInputs']['userId'];
 $title = filter_input(INPUT_POST, "title");
 $content = filter_input(INPUT_POST, "content");
 
-$obj = new BlogDao();
-//データベースに追加
-$stmt = $obj->insert($user_id, $title, $content);
+$createInput = new CreateInput($user_id, $title, $content);
+$useCase = new CreateInteractor($createInput);
+$createOutput = $useCase->handler();
 
-//マイページへリダイレクト
 $request = new Action;
-$action = $request->redirect('mypage.php');
+
+if ($createOutput->isSuccess()) {
+  $action = $request->redirect('mypage.php');
+} else {
+  $_SESSION['errors'][] = $createOutput->message();
+  $action = $request->redirect('/post/create.php');
+}
+
 ?>

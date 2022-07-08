@@ -6,10 +6,20 @@ use App\Infrastructure\BlogDao;
 
 session_start();
 
+$errors = $_SESSION['errors'] ?? [];
+unset($_SESSION['errors']);
+
+$successMessage = $_SESSION['message'] ?? '';
+unset($_SESSION['message']);
+
 //userのid
 $user_id = $_SESSION['formInputs']['userId'];
 //blogのid
-$id = filter_input(INPUT_POST, "id");
+$id = $_SESSION['blog_id'][0]; 
+if ($id === NULL) {
+  $id = filter_input(INPUT_POST, "id");
+}
+unset($_SESSION['blog_id']);
 
 $obj = new BlogDao();
 //idで絞り込む（ブログ記事のDB）
@@ -27,6 +37,12 @@ $contacts1 = $obj->searchById($id);
 </head>
 <body>
   <main>
+  <?php if (!empty($successMessage)) : ?>
+  <?php
+    $alert = "<script type='text/javascript'>alert('". $successMessage. "');</script>";
+    echo $alert;
+  ?>
+  <? endif; ?>
   <form method="post">
     <?php foreach($contacts as $row) : ?>
       <span style="text-align: center">
@@ -46,6 +62,11 @@ $contacts1 = $obj->searchById($id);
     <div>
       <li>
         <h2>この投稿にコメントしますか？</h2>
+        <?php if (!empty($errors)): ?>
+          <?php foreach ($errors as $error): ?>
+            <p class="text-red-600"><?php echo $error; ?></p>
+          <?php endforeach; ?>
+        <?php endif; ?>
         <p>名前</p>
         <input type="text" name="commenter_name" ><br>
         <p>内容</p>

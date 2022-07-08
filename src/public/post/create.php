@@ -1,3 +1,8 @@
+<?php
+session_start();
+$errors = $_SESSION['errors'] ?? [];
+unset($_SESSION['errors']);
+?>
 <!DOCTYPE html>
 <html lang="ja">
 <meta charset="UTF-8">
@@ -5,6 +10,11 @@
     <main>
       <div style="text-align: center">
         <h1>新規記事</h1>
+        <?php if (!empty($errors)): ?>
+          <?php foreach ($errors as $error): ?>
+            <p class="text-red-600"><?php echo $error; ?></p>
+          <?php endforeach; ?>
+        <?php endif; ?>
           <form method="post" action="/../create-complete.php">
             <div>
                 <p>タイトル</p>
