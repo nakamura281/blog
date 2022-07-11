@@ -3,7 +3,14 @@ include_once __DIR__ . ('/../vendor/autoload.php');
 
 use App\Infrastructure\BlogDao;
 
+session_start();
+
 $id = filter_input(INPUT_POST, "id");
+if (empty($id)) {
+  $id = $_SESSION['blog_id'];
+  unset($_SESSION['blog_id']);
+}
+
 $obj = new BlogDao();
 $contacts = $obj->searchById($id);
 ?>

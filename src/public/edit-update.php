@@ -1,14 +1,27 @@
 <?php 
+include_once __DIR__ . ('/../app/Lib/Action.php');
 include_once __DIR__ . ('/../vendor/autoload.php');
 
-use App\Infrastructure\BlogDao;
+use App\Usecase\UseCaseInput\EditInput;
+use App\Usecase\UseCaseInteractor\EditInteractor;
 
-$id = filter_input(INPUT_POST, "id");
+session_start();
+
+$blog_id = filter_input(INPUT_POST, "id");
 $title = filter_input(INPUT_POST, "title");
 $content = filter_input(INPUT_POST, "content");
 
-$obj = new BlogDao();
-$stmt = $obj->update($id, $title, $content);
+$createInput = new EditInput($blog_id, $title, $content);
+$useCase = new EditInteractor($createInput);
+$createOutput = $useCase->handler();
+
+$request = new Action;
+
+if (!$createOutput->isSuccess()) {
+  $_SESSION['blog_id'] = $blog_id;
+  $action = $request->redirect('edit.php');
+  exit;
+} 
 
 ?>
 <!DOCTYPE html>
@@ -23,6 +36,6 @@ $stmt = $obj->update($id, $title, $content);
         <button type="submit">次へ</button>
       </li>  
     </div>
-    <input type="hidden" name="id" value="<?= $id ?>">
+    <input type="hidden" name="id" value="<?= $blog_id ?>">
   </form> 
 </body>
