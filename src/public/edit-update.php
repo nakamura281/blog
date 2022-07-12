@@ -11,17 +11,18 @@ $blog_id = filter_input(INPUT_POST, "id");
 $title = filter_input(INPUT_POST, "title");
 $content = filter_input(INPUT_POST, "content");
 
-$createInput = new EditInput($blog_id, $title, $content);
-$useCase = new EditInteractor($createInput);
-$createOutput = $useCase->handler();
+$editInput = new EditInput($blog_id, $title, $content);
+$useCase = new EditInteractor($editInput);
+$editOutput = $useCase->handler();
 
-$request = new Action;
-
-if (!$createOutput->isSuccess()) {
+if (!$editOutput->isSuccess()) {
   $_SESSION['blog_id'] = $blog_id;
-  $action = $request->redirect('edit.php');
-  exit;
+  $_SESSION['errors'][] = $editOutput->message();
+  $request = new Action;
+  $request->redirect('edit.php');
 } 
+
+$message = $editOutput->message();
 
 ?>
 <!DOCTYPE html>
@@ -33,6 +34,7 @@ if (!$createOutput->isSuccess()) {
   <form method=post action=myArticledetail.php>
     <div style="text-align: center">
       <li>
+          <p><?php echo $m; ?></p>
         <button type="submit">次へ</button>
       </li>  
     </div>

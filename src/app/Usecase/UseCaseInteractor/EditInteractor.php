@@ -10,19 +10,19 @@ final class EditInteractor
     const FAILED_MESSAGE = 'タイトルまたは内容を入力してください';
     const COMPLETED_MESSAGE = '投稿を編集しました';
 
-    private $createInput;
+    private $editInput;
 
-    public function __construct(EditInput $createInput)
+    public function __construct(EditInput $editInput)
     {
-        $this->createInput = $createInput;
+        $this->editInput = $editInput;
     }
 
     public function handler(): EditOutput
     {
         $blogDao = new BlogDao();
-        $blog_id = $this->createInput->blogId();
-        $title = $this->createInput->title();
-        $content = $this->createInput->content();
+        $blog_id = $this->editInput->blogId();
+        $title = $this->editInput->title();
+        $content = $this->editInput->content();
 
         if (empty($title) || empty($content)) {
           return new EditOutput(false, self::FAILED_MESSAGE);
