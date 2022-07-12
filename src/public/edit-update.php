@@ -34,7 +34,7 @@ $message = $editOutput->message();
   <form method=post action=myArticledetail.php>
     <div style="text-align: center">
       <li>
-          <p><?php echo $m; ?></p>
+          <p><?php echo $message; ?></p>
         <button type="submit">次へ</button>
       </li>  
     </div>
