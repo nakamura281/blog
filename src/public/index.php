@@ -3,6 +3,8 @@ session_start();
 include __DIR__ . ('/../app/Lib/Action.php');
 include_once __DIR__ . ('/../vendor/autoload.php');
 
+use App\Usecase\UseCaseInput\SearchInput;
+use App\Usecase\UseCaseInteractor\SearchInteractor;
 use App\Infrastructure\BlogDao;
 
 //ログインしていない時の処理
@@ -16,6 +18,17 @@ $obj = new BlogDao();
 
 //検索機能
 $search_word = filter_input(INPUT_POST, "word");
+if (empty($search_word)) {
+  $search_word = '%%';
+}
+$searchInput = new SearchInput($search_word);
+$useCase = new SearchInteractor($searchInput);
+$searchOutput = $useCase->handler();
+
+if (!$searchOutput->isSuccess()) {
+  $search_word = '%%';
+} 
+$message = $searchOutput->message();
 $contacts = $obj->searchWord($search_word);
 
 //並び替え機能
@@ -41,7 +54,7 @@ if ($_GET["order"] === "desc") {
       <span style="text-align: center">
         <h1>blog一覧</h1>
           <form action="index.php" method="post">
-          <input type="text" name="word" placeholder="search...">
+          <input type="text" name="word" placeholder= '<?php echo $message;?>' >
           <input type="submit" name="search" value="検索">
           </form>
           <a href="index.php?order=desc">新しい順</a>
