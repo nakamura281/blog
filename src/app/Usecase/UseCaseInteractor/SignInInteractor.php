@@ -38,7 +38,7 @@ final class SignInInteractor
 
     private function findUser(): ?array
     {
-        return $this->userDao->findByEmail($this->input->email());
+        return $this->userDao->findByEmail($this->input->email()->value());
     }
 
     private function notExistsUser(?array $user): bool
@@ -48,7 +48,7 @@ final class SignInInteractor
 
     private function isInvalidPassword(string $password): bool
     {
-        return !password_verify($this->input->password(), $password);
+        return !password_verify($this->input->password()->value(), $password);
     }
 
     private function saveSession(array $user): void

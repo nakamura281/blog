@@ -1,30 +1,34 @@
 <?php
 namespace App\Usecase\UseCaseInput;
 
+use App\Domain\ValueObject\UserName;
+use App\Domain\ValueObject\Email;
+use App\Domain\ValueObject\InputPassword;
+
 final class SignUpInput
 {
     private $name;
     private $email;
     private $password;
 
-    public function __construct(string $name, string $email, string $password)
+    public function __construct(UserName $name, Email $email, InputPassword $password)
     {
         $this->name = $name;
         $this->email = $email;
         $this->password = $password;
     }
 
-    public function name(): string
+    public function name(): UserName
     {
         return $this->name;
     }
 
-    public function email(): string
+    public function email(): Email
     {
         return $this->email;
     }
 
-    public function password(): string
+    public function password(): InputPassword
     {
         return $this->password;
     }
