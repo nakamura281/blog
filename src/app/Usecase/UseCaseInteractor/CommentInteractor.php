@@ -18,8 +18,8 @@ final class CommentInteractor
 
     public function handler(): CommentOutput
     {
-        $commenter = $this->input->commenter();
-        $comments = $this->input->comments();
+        $commenter = $this->input->commenter()->commenterName();
+        $comments = $this->input->comments()->commentContent();
 
         if (empty($commenter) || empty($comments)) {
             return new CommentOutput(false, self::FAILED_MESSAGE);
