@@ -21,8 +21,8 @@ final class EditInteractor
     {
         $blogDao = new BlogDao();
         $blog_id = $this->editInput->blogId();
-        $title = $this->editInput->title();
-        $content = $this->editInput->content();
+        $title = $this->editInput->title()->title();
+        $content = $this->editInput->content()->content();
 
         if (empty($title) || empty($content)) {
           return new EditOutput(false, self::FAILED_MESSAGE);

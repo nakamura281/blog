@@ -4,23 +4,31 @@ include_once __DIR__ . ('/../vendor/autoload.php');
 
 use App\Usecase\UseCaseInput\EditInput;
 use App\Usecase\UseCaseInteractor\EditInteractor;
+use App\Domain\ValueObject\BlogTitle;
+use App\Domain\ValueObject\BlogContent;
 
 session_start();
+$request = new Action;
 
 $blog_id = filter_input(INPUT_POST, "id");
 $title = filter_input(INPUT_POST, "title");
 $content = filter_input(INPUT_POST, "content");
 
-$editInput = new EditInput($blog_id, $title, $content);
-$useCase = new EditInteractor($editInput);
-$editOutput = $useCase->handler();
+try {
+  $blogTitle = new BlogTitle($title);
+  $blogContent = new BlogContent($content);
+  $editInput = new EditInput($blog_id, $blogTitle, $blogContent);
+  $useCase = new EditInteractor($editInput);
+  $editOutput = $useCase->handler();
 
-if (!$editOutput->isSuccess()) {
+  if (!$editOutput->isSuccess()) {
+    throw new Exception($editOutput->message());
+  } 
+} catch (Exception $e) {
   $_SESSION['blog_id'] = $blog_id;
-  $_SESSION['errors'][] = $editOutput->message();
-  $request = new Action;
+  $_SESSION['errors'][] = $e->getMessage();
   $request->redirect('edit.php');
-} 
+}
 
 $message = $editOutput->message();
 

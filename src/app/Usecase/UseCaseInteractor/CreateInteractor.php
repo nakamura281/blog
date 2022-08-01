@@ -21,8 +21,8 @@ final class CreateInteractor
     {
         $blogDao = new BlogDao();
         $user_id = $this->createInput->userId();
-        $title = $this->createInput->title();
-        $content = $this->createInput->content();
+        $title = $this->createInput->title()->title();
+        $content = $this->createInput->content()->content();
 
         if (empty($title) || empty($content)) {
           return new CreateOutput(false, self::FAILED_MESSAGE);
