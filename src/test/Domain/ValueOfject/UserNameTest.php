@@ -9,11 +9,13 @@ final class UserNameTest extends TestCase
     /**
      * @test
      */
-    public function ユーザー名が20文字以下の場合_例外が発生しないこと(): void
+    public function ユーザー名が0文字以上20文字以下の場合_例外が発生しないこと(): void
     {
-        $actual = new UserName('12345678901234567890');
+        $userName = '12345678901234567890';
 
-        $this->assertSame('12345678901234567890', $actual->value());
+        $actual = new UserName($userName);
+
+        $this->assertSame($userName, $actual->value());
     }
 
     /**
@@ -21,8 +23,22 @@ final class UserNameTest extends TestCase
      */
     public function ユーザー名が21文字以上の場合_例外が発生すること(): void
     {
+        $userName = '123451234512345123451';
+        
         $this->expectException(\Exception::class);
 
-        new UserName('123451234512345123451');
+        new UserName($userName);
+    }
+
+    /**
+     * @test
+     */
+    public function ユーザー名が0文字の場合_例外が発生すること(): void
+    {
+        $userName = '';
+        
+        $this->expectException(\Exception::class);
+
+        new UserName($userName);
     }
 }
