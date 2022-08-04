@@ -4,12 +4,11 @@ use Exception;
 
 final class BlogContent
 {
-  
   const INVALID_MESSAGE = '本文は100文字以下にしてください';
 
   private $content;
 
-  public function __construct(String $content)
+  public function __construct(string $content)
   {
       if ($this->isInvalid($content)) {
         throw new Exception(self::INVALID_MESSAGE);
@@ -18,7 +17,7 @@ final class BlogContent
       $this->content = $content;
   }
 
-  public function content(): String
+  public function content(): string
   {
       return $this->content;
   }

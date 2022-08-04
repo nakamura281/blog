@@ -4,12 +4,11 @@ use Exception;
 
 final class BlogTitle
 {
-
   const INVALID_MESSAGE = 'タイトルは20文字以下にしてください';
 
   private $title;
 
-  public function __construct(String $title)
+  public function __construct(string $title)
   {
       if ($this->isInvalid($title)) {
         throw new Exception(self::INVALID_MESSAGE);
@@ -18,7 +17,7 @@ final class BlogTitle
       $this->title = $title;
   }
 
-  public function title(): String
+  public function title(): string
   {
       return $this->title;
   }

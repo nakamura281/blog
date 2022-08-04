@@ -31,9 +31,4 @@ try {
   $_SESSION['errors'][] = $e->getMessage();
   $action = $request->redirect('/post/create.php');
 }
-
-
-
-
-
 ?>
