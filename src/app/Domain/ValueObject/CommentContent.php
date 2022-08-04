@@ -4,7 +4,6 @@ use Exception;
 
 final class CommentContent
 {
-  
   const INVALID_MESSAGE = '本文は100文字以下にしてください';
 
   private $content;

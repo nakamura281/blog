@@ -4,7 +4,6 @@ use Exception;
 
 final class CommenterName
 {
-
   const INVALID_MESSAGE = '名前は20文字以下にしてください';
 
   private $commenterName;
