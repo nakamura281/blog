@@ -27,6 +27,6 @@
 
      private function isInvalid(string $value): bool
      {
-         return mb_strlen($value) > 20;
+         return mb_strlen($value) === 0 || mb_strlen($value) > 20;
      }
  }
