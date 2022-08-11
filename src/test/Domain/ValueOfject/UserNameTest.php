@@ -9,7 +9,7 @@ final class UserNameTest extends TestCase
     /**
      * @test
      */
-    public function ユーザー名が0文字以上20文字以下の場合_例外が発生しないこと(): void
+    public function ユーザー名が1文字以上20文字以下の場合_例外が発生しないこと(): void
     {
         $userName = '12345678901234567890';
 
@@ -23,9 +23,9 @@ final class UserNameTest extends TestCase
      */
     public function ユーザー名が21文字以上の場合_例外が発生すること(): void
     {
-        $userName = '123451234512345123451';
-        
         $this->expectException(\Exception::class);
+
+        $userName = '123451234512345123451';
 
         new UserName($userName);
     }
@@ -35,9 +35,9 @@ final class UserNameTest extends TestCase
      */
     public function ユーザー名が0文字の場合_例外が発生すること(): void
     {
-        $userName = '';
-        
         $this->expectException(\Exception::class);
+
+        $userName = '';
 
         new UserName($userName);
     }
