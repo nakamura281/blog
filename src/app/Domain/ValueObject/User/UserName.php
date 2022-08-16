@@ -1,5 +1,5 @@
 <?php
- namespace App\Domain\ValueObject;
+ namespace App\Domain\ValueObject\User;
  use Exception;
  /**
   * ユーザーの名前用のValueObject
@@ -7,7 +7,7 @@
  final class UserName
  {
    
-     const INVALID_MESSAGE = 'ユーザー名は20文字以下でお願いします!';
+     const INVALID_MESSAGE = 'ユーザー名は1文字以上20文字以下でお願いします!';
 
      private $value;
 

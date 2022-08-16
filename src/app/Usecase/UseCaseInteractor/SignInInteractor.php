@@ -1,6 +1,11 @@
 <?php
 namespace App\Usecase\UseCaseInteractor;
 
+use App\Domain\Entity\User;
+use App\Domain\ValueObject\User\UserId;
+use App\Domain\ValueObject\User\UserName;
+use App\Domain\ValueObject\Email;
+use App\Domain\ValueObject\HashedPassword;
 use App\Usecase\UseCaseInput\SignInInput;
 use App\Usecase\UseCaseOutput\SignInOutput;
 use App\Infrastructure\UserDao;
@@ -21,13 +26,15 @@ final class SignInInteractor
 
     public function handler(): SignInOutput
     {
-        $user = $this->findUser();
+        $userMapper = $this->findUser();
 
-        if ($this->notExistsUser($user)) {
+        if ($this->notExistsUser($userMapper)) {
             return new SignInOutput(false, self::FAILED_MESSAGE);
         }
 
-        if ($this->isInvalidPassword($user['password'])) {
+        $user = $this->buildUserEntity($userMapper);
+
+        if ($this->isInvalidPassword($user->password()->value())) {
             return new SignInOutput(false, self::FAILED_MESSAGE);
         }
 
@@ -46,14 +53,24 @@ final class SignInInteractor
         return is_null($user);
     }
 
+    private function buildUserEntity(array $user): User
+     {
+         return new User(
+             new UserId($user['id']), 
+             new UserName($user['name']), 
+             new Email($user['email']), 
+             new HashedPassword($user['password']));
+     }
+
+
     private function isInvalidPassword(string $password): bool
     {
         return !password_verify($this->input->password()->value(), $password);
     }
 
-    private function saveSession(array $user): void
+    private function saveSession(User $user): void
     {
-      $_SESSION['formInputs']['userId'] = $user['id'];
-      $_SESSION['formInputs']['name'] = $user['name'];
+      $_SESSION['formInputs']['userId'] = $user->id();
+      $_SESSION['formInputs']['name'] = $user->name();
     }
 }
