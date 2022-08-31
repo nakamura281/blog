@@ -1,7 +1,7 @@
 <?php
 namespace App\Usecase\UseCaseInput;
 
-use App\Domain\ValueObject\UserName;
+use App\Domain\ValueObject\User\UserName;
 use App\Domain\ValueObject\Email;
 use App\Domain\ValueObject\InputPassword;
 

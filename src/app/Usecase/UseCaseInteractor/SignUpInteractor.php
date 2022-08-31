@@ -4,6 +4,8 @@ namespace App\Usecase\UseCaseInteractor;
 use App\Usecase\UseCaseInput\SignUpInput;
 use App\Usecase\UseCaseOutput\SignUpOutput;
 use App\Infrastructure\UserDao;
+use App\Adapter\Repository\UserRepository;
+use App\Domain\ValueObject\User\NewUser;
 
 final class SignUpInteractor
 {
@@ -14,6 +16,7 @@ final class SignUpInteractor
 
     public function __construct(SignUpInput $useCaseInput)
     {
+        $this->userRepository = new UserRepository();
         $this->useCaseInput = $useCaseInput;
     }
 
@@ -26,11 +29,18 @@ final class SignUpInteractor
             return new SignUpOutput(false, self::ALLREADY_EXISTS_MESSAGE);
         }
 
-        $userDao->create(
-            $this->useCaseInput->name()->value(),
-            $this->useCaseInput->email()->value(),
-            $this->useCaseInput->password()->value()
-        );
+        $this->signup();
         return new SignUpOutput(true, self::COMPLETED_MESSAGE);
     }
+
+    private function signup(): void
+     {
+         $this->userRepository->insert(
+             new NewUser(
+                 $this->useCaseInput->name(),
+                 $this->useCaseInput->email(),
+                 $this->useCaseInput->password()
+             )
+         );
+     }
 }
