@@ -2,7 +2,7 @@
 namespace App\Infrastructure;
 
 include_once  __DIR__ . ('/../../vendor/autoload.php');
-
+use App\Domain\ValueObject\User\NewUser;
 use PDO;
 
 if (class_exists("UserDao")) return;
@@ -18,22 +18,19 @@ final class UserDao extends Dao
 
     /**
      * ユーザーを追加する
-     * @param  string $name
-     * @param  string $mail
-     * @param  string $password
      */
-    public function create(string $name, string $email, string $pass): void
+    public function create(NewUser $user): void
     {
-        $hashedPassword = password_hash($pass, PASSWORD_DEFAULT);
+        $hashedPassword = $user->password()->hash();
 
         $sql = sprintf(
             'INSERT INTO %s (name, email, password, created_at, updated_at) VALUES (:name, :email, :password, now(), now())',
             self::TABLE_NAME
         );
         $statement = $this->pdo->prepare($sql);
-        $statement->bindValue(':name', $name, PDO::PARAM_STR);
-        $statement->bindValue(':email', $email, PDO::PARAM_STR);
-        $statement->bindValue(':password', $hashedPassword, PDO::PARAM_STR);
+        $statement->bindValue(':name', $user->name()->value(), PDO::PARAM_STR);
+        $statement->bindValue(':email', $user->email()->value(), PDO::PARAM_STR);
+        $statement->bindValue(':password', $hashedPassword->value(), PDO::PARAM_STR);
         $statement->execute();
     }
 
